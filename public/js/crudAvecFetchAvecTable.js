@@ -233,8 +233,13 @@ function afficheRestaurantsEnTable(restaurants) {
         ligne.id = "restaurant" + i;
 
         let restaurant = restaurants[i];
+        let id = restaurant._id;
         let nom = restaurant.name;
         let cuisine = restaurant.cuisine;
+
+        let celluleId = ligne.insertCell();
+        celluleId.innerHTML = id;
+        celluleId.id = "restaurant" + i + "Id" ;
 
         let celluleNom = ligne.insertCell();
         celluleNom.innerHTML = nom;
