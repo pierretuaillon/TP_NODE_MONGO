@@ -322,9 +322,6 @@ function afficheRestaurantsEnTable2(restaurants) {
         let celluleRemove = ligne.insertCell();
         celluleRemove.innerHTML = '<button id=' + restaurant._id + ' onclick="supprimerRestaurant(event);">Supprimer</button>';
 
-        let celluleModifier = ligne.insertCell();
-        celluleModifier.innerHTML = '<button id=' + restaurant._id + ' onclick="modifierRestaurant(' + i + ');">Modifier</button>';
-
     }
 
     let divTable = document.querySelector("#reponseGETBYNAME");
