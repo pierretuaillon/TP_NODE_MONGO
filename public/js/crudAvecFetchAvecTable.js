@@ -55,7 +55,23 @@ function getRequest4() {
             responseJSON.json()
             .then(function(res) {
                 // Maintenant res est un vrai objet JavaScript
-                afficheReponseGET(res);
+                afficheReponseGET2(res);
+            });
+        })
+        .catch(function (err) {
+            console.log(err);
+    });
+}
+
+function getRequest5() {
+    let url = "/api/restaurants/count";
+
+    fetch(url)
+        .then(function(responseJSON) {
+            responseJSON.json()
+            .then(function(res) {
+                // Maintenant res est un vrai objet JavaScript
+                afficheReponseGET2(res);
             });
         })
         .catch(function (err) {
@@ -195,6 +211,11 @@ function afficheReponseGET(reponse) {
     // Dans reponse.data j'ai les restaurants
     afficheRestaurantsEnTable(reponse.data);
 }
+// Affichage d'une réponse JSON
+function afficheReponseGET2(reponse) {
+    let div = document.querySelector("#reponseGET");
+    div.innerHTML = reponse.msg+" res : "+JSON.stringify(reponse.data);
+}
 
 function afficheReponseGETBYNAME(reponse) {
     let div = document.querySelector("#reponseGETBYNAME");
@@ -219,7 +240,6 @@ function afficheReponseDELETE(reponse) {
     let div = document.querySelector("#reponseDELETE");
     div.innerHTML = reponse.msg;
 }
-
 //------------ ici fonction pour creer tableau
 function afficheRestaurantsEnTable(restaurants) {
     console.log("creer tableau");
@@ -271,7 +291,7 @@ function afficheRestaurantsEnTable(restaurants) {
 }
 //------------ ici fonction pour creer tableau
 function afficheRestaurantsEnTable2(restaurants) {
-    console.log("creer tableau");
+    console.log("creer tableau 2");
 
     // On cree un tableau
     let table = document.createElement("table");
@@ -337,8 +357,6 @@ function modifierRestaurant(noLigne) {
     form.nom.value = nom;
     form.cuisine.value = cuisine;
     form._id.value = id;
-
-
 
 }
 
