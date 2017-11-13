@@ -244,10 +244,16 @@ function afficheRestaurantsEnTable(restaurants) {
         let celluleNom = ligne.insertCell();
         celluleNom.innerHTML = nom;
         celluleNom.id = "restaurant" + i + "Nom" ;
+        celluleNom.addEventListener("click",function(){
+            celluleNom.contentEditable = true;
+        });
 
         let celluleCuisine = ligne.insertCell();
         celluleCuisine.innerHTML = cuisine;
-        celluleCuisine.id = "restaurant" + i + "Cuisine" ;
+        celluleCuisine.id = "restaurant" + i + "Cuisine" ;  
+        celluleCuisine.addEventListener("click",function(){
+            celluleCuisine.contentEditable = true;
+        });      
 
         let celluleRemove = ligne.insertCell();
         celluleRemove.innerHTML = '<button id=' + restaurant._id + ' onclick="supprimerRestaurant(event);">Supprimer</button>';
@@ -255,10 +261,6 @@ function afficheRestaurantsEnTable(restaurants) {
         let celluleModifier = ligne.insertCell();
         celluleModifier.innerHTML = '<button id=' + restaurant._id + ' onclick="modifierRestaurant(' + i + ');">Modifier</button>';
 
-        /*
-        ligne.innerHTML = "<td>" + nom + "</td><td>"    
-                            + cuisine + "</td>"; 
-                            */
     }
 
     let divTable = document.querySelector("#reponseGET");
@@ -286,10 +288,16 @@ function afficheRestaurantsEnTable2(restaurants) {
         let celluleNom = ligne.insertCell();
         celluleNom.innerHTML = nom;
         celluleNom.id = "restaurant" + i + "Nom" ;
+        celluleNom.addEventListener("click",function(){
+            celluleNom.contentEditable = true;
+        });      
 
         let celluleCuisine = ligne.insertCell();
         celluleCuisine.innerHTML = cuisine;
         celluleCuisine.id = "restaurant" + i + "Cuisine" ;
+        celluleCuisine.addEventListener("click",function(){
+            celluleCuisine.contentEditable = true;
+        });      
 
         let celluleRemove = ligne.insertCell();
         celluleRemove.innerHTML = '<button id=' + restaurant._id + ' onclick="supprimerRestaurant(event);">Supprimer</button>';
@@ -297,10 +305,6 @@ function afficheRestaurantsEnTable2(restaurants) {
         let celluleModifier = ligne.insertCell();
         celluleModifier.innerHTML = '<button id=' + restaurant._id + ' onclick="modifierRestaurant(' + i + ');">Modifier</button>';
 
-        /*
-        ligne.innerHTML = "<td>" + nom + "</td><td>"    
-                            + cuisine + "</td>"; 
-                            */
     }
 
     let divTable = document.querySelector("#reponseGETBYNAME");
