@@ -1,6 +1,6 @@
 // REQUETES GET
-function getRequest1() {
-	let url = "/api/restaurants";
+function getRequest1(noPage=0) {
+	let url = "/api/restaurants?page="+noPage;
 
 	fetch(url)
 		.then(function(responseJSON) {
@@ -8,6 +8,29 @@ function getRequest1() {
         	.then(function(res) {
         		// Maintenant res est un vrai objet JavaScript
         		afficheReponseGET(res);
+
+                //pagination
+                let divTable = document.querySelector("#reponseGET");
+                let prevPage = document.createElement("button");
+                prevPage.innerHTML="Previous";
+                prevPage.onclick = function() {
+                    if(noPage>0)
+                        //noPage--;
+                    getRequest1(noPage-1);
+                }
+                divTable.appendChild(prevPage);
+
+                let curPage = document.createElement("textContent");
+                curPage.innerHTML = (noPage+1);
+                divTable.appendChild(curPage);    
+
+                let nextPage = document.createElement("button");
+                nextPage.innerHTML="Next";
+                nextPage.onclick = function() {
+                    //noPage++;
+                    getRequest1(noPage+1);
+                }
+                divTable.appendChild(nextPage);
         	});
     	})
     	.catch(function (err) {
