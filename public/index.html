@@ -2,6 +2,8 @@
 	<head>
 		<title>CRUD avec Express + MongoDB</title>
 		<script src="js/crudAvecFetchAvecTable.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
@@ -106,5 +108,141 @@
 					<button>Supprimer ce restaurant</button>
 				</fieldset>
 			</form>
+<script type="text/x-template" id="grid-template">
+  <table>
+    <thead>
+      <tr>
+        <th v-for="key in columns"
+          @click="sortBy(key)"
+          :class="{ active: sortKey == key }">
+          {{ key | capitalize }}
+          <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="entry in filteredData">
+        <td v-for="key in columns">
+          {{entry[key]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+
+<!-- demo root element -->
+<center>
+<div id="demo">
+
+  <demo-grid
+    :data="gridData"
+    :columns="gridColumns"
+    :filter-key="searchQuery">
+  </demo-grid>
+</div>
+</center>
+<script>
+// register the grid component
+Vue.component('demo-grid', {
+  template: '#grid-template',
+  props: {
+    data: Array,
+    columns: Array,
+    filterKey: String
+  },
+  data: function () {
+    var sortOrders = {}
+    this.columns.forEach(function (key) {
+      sortOrders[key] = 1
+    })
+    return {
+      sortKey: '',
+      sortOrders: sortOrders
+    }
+  },
+  computed: {
+    filteredData: function () {
+      var sortKey = this.sortKey
+      var filterKey = this.filterKey && this.filterKey.toLowerCase()
+      var order = this.sortOrders[sortKey] || 1
+      var data = this.data
+      if (filterKey) {
+        data = data.filter(function (row) {
+          return Object.keys(row).some(function (key) {
+            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+          })
+        })
+      }
+      if (sortKey) {
+        data = data.slice().sort(function (a, b) {
+          a = a[sortKey]
+          b = b[sortKey]
+          return (a === b ? 0 : a > b ? 1 : -1) * order
+        })
+      }
+      return data
+    }
+  },
+  filters: {
+    capitalize: function (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+  },
+  methods: {
+    sortBy: function (key) {
+      this.sortKey = key
+      this.sortOrders[key] = this.sortOrders[key] * -1
+    }
+  }
+})
+let url = "/api/restaurants";
+fetch(url)
+    .then(function(responseJSON) {
+        responseJSON.json()
+        .then(function(res) {
+            // Maintenant res est un vrai objet JavaScript
+            remplirDonnee(res);
+        });
+    })
+    .catch(function (err) {
+        	console.log(err);
+    });
+
+function remplirDonnee(reponse){
+	afficherTable(reponse.data);
+}
+
+function afficherTable(restaurants){
+	console.log("creer table vue.js");
+	var gridDataFull = [];
+	console.log(restaurants.length);
+	for(var i=0; i < restaurants.length; i++) {
+		let restaurant = restaurants[i];
+        let id = restaurant._id;
+        let nom = restaurant.name;
+        let restcuisine = restaurant.cuisine;
+        gridDataFull.push({ restaurant_id: id, name: nom, cuisine: restcuisine });
+	}
+
+// bootstrap the demo
+	var demo = new Vue({
+		el: '#demo',
+	  	data: {
+	    	searchQuery: '',
+	    	gridColumns: ['restaurant_id', 'name', 'cuisine'],
+	    	gridData: gridDataFull //[
+	      		//{ name: 'Chuck Norris', power: Infinity },
+	      		//{ name: 'Bruce Lee', power: 9000 },
+	      		//{ name: 'Jackie Chan', power: 7000 },
+	      		//{ name: 'Jet Li', power: 8000 }
+	    	//]	
+	  	}
+	})
+
+}
+
+
+</script>
 	</body>
 </html>
