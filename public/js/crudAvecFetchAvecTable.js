@@ -13,6 +13,11 @@ function getRequest1(noPage=0) {
                 let divTable = document.querySelector("#reponseGET");
                 let prevPage = document.createElement("button");
                 prevPage.innerHTML="Previous";
+                if(noPage===0){
+                    prevPage.disabled = true;
+                }else{
+                    prevPage.disabled = false;
+                }
                 prevPage.onclick = function() {
                     if(noPage>0)
                         //noPage--;
